@@ -2,11 +2,10 @@
 #include "../include/window.hpp"
 #include <iostream>
 
-
-VKAPI_ATTR VkBool32 VKAPI_CALL debug_message(
-    VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
-	VkDebugUtilsMessageTypeFlagsEXT messageTypes,
-	VkDebugUtilsMessengerCallbackDataEXT const* pCallbackData,
+VKAPI_ATTR vk::Bool32 VKAPI_CALL debug_message(
+    vk::DebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+	vk::DebugUtilsMessageTypeFlagsEXT messageTypes,
+	const vk::DebugUtilsMessengerCallbackDataEXT* pCallbackData,
 	void* pUserData
 );
 
@@ -51,13 +50,17 @@ void SetupVulkan(std::vector<const char*>& extensions){
     surface = vk::UniqueSurfaceKHR{c_surface, instance.get()};
 
     // create debug messenger
-	VkDebugUtilsMessengerCreateInfoEXT debugMessengerInfo = {};
-	debugMessengerInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-    debugMessengerInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
-    debugMessengerInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT;
-    debugMessengerInfo.pfnUserCallback = debug_message;
-    auto vkCreateDebugUtilsMessengerEXT = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance.get(), "vkCreateDebugUtilsMessengerEXT");
-    result = vkCreateDebugUtilsMessengerEXT(instance.get(), &debugMessengerInfo, nullptr, &debugMessenger);
+    vk::DebugUtilsMessengerCreateInfoEXT ci{};
+    ci.messageSeverity =
+        vk::DebugUtilsMessageSeverityFlagBitsEXT::eWarning |
+        vk::DebugUtilsMessageSeverityFlagBitsEXT::eError;
+    ci.messageType =
+        vk::DebugUtilsMessageTypeFlagBitsEXT::eGeneral |
+        vk::DebugUtilsMessageTypeFlagBitsEXT::eValidation |
+        vk::DebugUtilsMessageTypeFlagBitsEXT::ePerformance;
+    ci.setPfnUserCallback(debug_message);
+    ci.pUserData       = nullptr;
+    debugMessenger = instance->createDebugUtilsMessengerEXTUnique(ci);
 
     // select Device
     std::vector devices = instance->enumeratePhysicalDevices();
@@ -208,10 +211,10 @@ void recreateSwapchain(){
     }
 }
 
-VKAPI_ATTR VkBool32 VKAPI_CALL debug_message(
-    VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
-	VkDebugUtilsMessageTypeFlagsEXT messageTypes,
-	VkDebugUtilsMessengerCallbackDataEXT const* pCallbackData,
+VKAPI_ATTR vk::Bool32 VKAPI_CALL debug_message(
+    vk::DebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+	vk::DebugUtilsMessageTypeFlagsEXT messageTypes,
+	const vk::DebugUtilsMessengerCallbackDataEXT* pCallbackData,
 	void* pUserData)
 {
 	std::cout << pCallbackData->pMessage << std::endl;

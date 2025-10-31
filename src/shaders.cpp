@@ -24,8 +24,6 @@ void addShader(uint32_t shaderIndex,
 }
 
 void prepareShaders(){
-    std::cout << "Prepare Shaders" << std::endl;
-
     uint32_t raygenShader = 0;
     uint32_t missMainShader = 1;
     uint32_t missShadowShader = 2;
@@ -70,8 +68,6 @@ void prepareShaders(){
 }
 
 void createRayTracingPipeline(){
-    std::cout << "create pipeline" << std::endl;
-
     vk::PipelineLayoutCreateInfo layoutCreateInfo{};
     layoutCreateInfo.setSetLayouts(*descSetLayout);
     pipelineLayout = device->createPipelineLayoutUnique(layoutCreateInfo);
@@ -131,7 +127,6 @@ void createShaderBindingTable(){
         std::cerr << "Failed to get ray tracing shader group handles.\n";
         std::abort();
     }
-    std::cout << "success create shader group" << std::endl;
 
     uint8_t* sbtHead =
         static_cast<uint8_t*>(device->mapMemory(*sbt.memory, 0, sbtSize));

@@ -26,11 +26,15 @@ std::vector<uint32_t> indices;
 GLFWwindow* window;
 std::vector<const char*> extensions;
 
-vk::UniqueImage image;
+vk::UniqueInstance instance;
+vk::UniqueDebugUtilsMessengerEXT debugMessenger;
 
 VkSurfaceKHR c_surface;
 vk::UniqueSurfaceKHR surface;
 vk::SurfaceCapabilitiesKHR surfaceCapabilities;
+
+vk::UniqueDevice device;
+vk::PhysicalDevice physicalDevice;
 
 vk::UniqueSwapchainKHR swapchain;
 vk::SurfaceFormatKHR swapchainFormat;
@@ -40,10 +44,6 @@ std::vector<vk::UniqueImageView> swapchainImageViews;
 std::vector<vk::UniqueFramebuffer> swapchainFramebufs;
 vk::UniqueFence swapchainImgFence;
 
-vk::UniqueInstance instance;
-VkDebugUtilsMessengerEXT debugMessenger;
-vk::UniqueDevice device;
-vk::PhysicalDevice physicalDevice;
 vk::Queue queue;
 uint32_t queueFamily = (uint32_t)-1;
 
@@ -64,6 +64,8 @@ Buffer vertexBuffer;
 Buffer indexBuffer;
 Buffer sceneBuffer;
 std::vector<Buffer> textureBuffers(1);
+
+vk::UniqueImage image;
 
 vk::UniqueImage textureImage;
 vk::UniqueDeviceMemory textureMemory;

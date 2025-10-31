@@ -4,7 +4,6 @@
 #include <iostream>
 
 void createBLAS(){
-    std::cout << "Create BLAS" << std::endl;
 
     vk::BufferUsageFlags bufferUsage{
         vk::BufferUsageFlagBits::eAccelerationStructureBuildInputReadOnlyKHR |
@@ -50,8 +49,6 @@ void createBLAS(){
 }
 
 void createTLAS(){
-    std::cout << "Create TLAS" << std::endl;
-
     vk::TransformMatrixKHR transform = std::array{
         std::array{1.0f, 0.0f, 0.0f, 0.0f},
         std::array{0.0f, 1.0f, 0.0f, 0.0f},

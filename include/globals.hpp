@@ -54,7 +54,7 @@ extern std::vector<vk::UniqueFramebuffer> swapchainFramebufs;
 extern vk::UniqueFence swapchainImgFence;
 
 extern vk::UniqueInstance instance;
-extern VkDebugUtilsMessengerEXT debugMessenger;
+extern vk::UniqueDebugUtilsMessengerEXT debugMessenger;
 extern vk::UniqueDevice device;
 extern vk::PhysicalDevice physicalDevice;
 extern vk::Queue queue;
